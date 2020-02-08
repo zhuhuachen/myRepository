@@ -1,0 +1,61 @@
+    <head>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript">
+/* 			getInfo();
+			var status;
+			function getInfo(){
+				$.ajax({
+	            	type: "GET",
+	            	url: "/store/getInfo",
+	            	data: {},
+	            	dataType: "json",
+	            	success: function(data){
+	            		status=data;
+	            		if(data){
+	            			$('#stauts').text("end"); 
+	            		}else{
+	            			$('#stauts').text("start"); 
+	            		}
+	                }
+	        	});
+			} */
+			
+			function submit(){
+				var amount=$('#amount').val();
+				alert(amount);
+				$.ajax({
+	            	type: "GET",
+	            	url: "/pay/cash_execute",
+	            	data: {
+	            		amount:amount
+	            	},
+	            	dataType: "json",
+	            	success: function(data){
+	            		console.log(data);
+	            		if(data.code==300){
+	            			alert("无效的输入金额");
+	            		}else if(data.code==301){
+	            			alert("无可用订单");
+	            		}else{
+	            			alert("success");
+	            		}
+	                },error:function(data){
+	                	console.log(data);
+	                }
+	        	});
+			}
+			
+		</script>
+    </head>
+    <body>
+    <br/>
+	 <div class="layui-form-item">
+    <div class="layui-inline">
+      <label class="layui-form-label">amount</label>
+        <input type="tel" id="amount" name="amount"  autocomplete="off" class="layui-input">
+    </div>
+    <br/>
+  </div>
+    <br/>
+		<button id="submit" onclick="submit();">execute</button>     
+    </body>

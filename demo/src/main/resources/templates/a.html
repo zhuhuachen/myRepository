@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Hello World!</title>
+    </head>
+    <body>
+        <h1 th:inline="text">thymeleaf Test11</h1>
+		<p th:each="user : ${da}"><td th:text="${user.name}">neo</td></p>
+        <img alt="" src="images/1.png" width="943" height="362"/>
+        
+         <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>belong1</th>
+                <th>belong2</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr  th:each="user : ${list}">
+                <td th:text="${user.id}">neo</td>
+                <td th:text="${user.name}">neo</td>
+                <td th:text="${user.BelongedCatalog.id}">neo</td>
+                <td th:text="${user.BelongedCatalog.name}">neo</td>
+            </tr>
+            </tbody>
+        </table>
+        
+    </body>
+</html>

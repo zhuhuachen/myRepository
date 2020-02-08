@@ -1,0 +1,69 @@
+    <head>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript">
+/* 			getInfo();
+			var status;
+			function getInfo(){
+				$.ajax({
+	            	type: "GET",
+	            	url: "/store/getInfo",
+	            	data: {},
+	            	dataType: "json",
+	            	success: function(data){
+	            		status=data;
+	            		if(data){
+	            			$('#stauts').text("end"); 
+	            		}else{
+	            			$('#stauts').text("start"); 
+	            		}
+	                }
+	        	});
+			} */
+			
+			function submit(){
+				var cardAccountNumber=$('#cardAccountNumber').val();
+				var expiryDate=$('#expiryDate').val();
+				var fee=$('#fee').val();
+				$.ajax({
+	            	type: "GET",
+	            	url: "/pay/card_execute",
+	            	data: {
+	            		number:cardAccountNumber,
+	            		date:expiryDate,
+	            		fee:fee
+	            	},
+	            	dataType: "json",
+	            	success: function(data){
+	            		console.log(data);
+	            		if(data.code=200){
+	            			alert("success");
+	            		}
+	                },error:function(data){
+	                	console.log(data);
+	                }
+	        	});
+			}
+			
+		</script>
+    </head>
+    <body>
+    <br/>
+	 <div class="layui-form-item">
+    <div class="layui-inline">
+      <label class="layui-form-label"> cardAccountNumber </label>
+        <input type="tel" id="cardAccountNumber" name="cardAccountNumber"  autocomplete="off" class="layui-input">
+    </div>
+     <br/>
+      <div class="layui-inline">
+      <label class="layui-form-label">expiryDate</label>
+        <input type="tel" id="expiryDate" name="expiryDate" autocomplete="off" class="layui-input">
+    </div>
+    <br/>
+      <div class="layui-inline">
+      <label class="layui-form-label">fee</label>
+        <input type="tel" id="fee" name="fee"  autocomplete="off" class="layui-input">
+    </div>
+  </div>
+    <br/>
+		<button id="submit" onclick="submit();">execute</button>     
+    </body>

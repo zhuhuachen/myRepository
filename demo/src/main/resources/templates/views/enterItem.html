@@ -1,0 +1,66 @@
+    <head>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript">
+/* 			getInfo();
+			var status;
+			function getInfo(){
+				$.ajax({
+	            	type: "GET",
+	            	url: "/store/getInfo",
+	            	data: {},
+	            	dataType: "json",
+	            	success: function(data){
+	            		status=data;
+	            		if(data){
+	            			$('#stauts').text("end"); 
+	            		}else{
+	            			$('#stauts').text("start"); 
+	            		}
+	                }
+	        	});
+			} */
+			
+			function submit(){
+				var barcode=$('#barcode').val();
+				var quantity=$('#quantity').val();
+				$.ajax({
+	            	type: "GET",
+	            	url: "/sale/enterItem",
+	            	data: {
+	            		barcode:barcode,
+	            		quantity:quantity
+	            	},
+	            	dataType: "json",
+	            	success: function(data){
+	            		console.log(data);
+	            		if(data.msg==300){
+	            			alert("make new sale");
+	            		}else if(data.msg==301){
+	            			alert("barcode unknown");
+	            		}else{
+	            			alert("success");
+	            		}
+	                },error:function(data){
+	                	console.log(data);
+	                }
+	        	});
+			}
+			
+		</script>
+    </head>
+    <body>
+    <br/>
+	<div class="layui-form-item">
+    <div class="layui-inline">
+      <label class="layui-form-label">barcode</label>
+        <input type="tel" id="barcode" name="barcode" lay-verify="required|phone" autocomplete="off" class="layui-input">
+    </div>
+    <br/>
+    <div class="layui-inline">
+      <label class="layui-form-label">quantity</label>
+        <input type="text" id="quantity" name="quantity" lay-verify="email" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+    <br/>
+		<button id="submit" onclick="submit();">execute</button>     
+    </body>

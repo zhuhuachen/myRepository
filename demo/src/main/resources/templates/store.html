@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Hello World!</title>
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+		<script type="text/javascript">
+			getInfo();
+			var status;
+			function getInfo(){
+				$.ajax({
+	            	type: "GET",
+	            	url: "getInfo",
+	            	data: {},
+	            	dataType: "json",
+	            	success: function(data){
+	            		status=data;
+	            		if(data){
+	            			$('#stauts').text("end"); 
+	            		}else{
+	            			$('#stauts').text("start"); 
+	            		}
+	                	  //清空resText里面的所有内容
+	                }
+	        	});
+			}
+			
+			function stautsChange(){
+				var url=$('#stauts').text();
+				$.ajax({
+	            	type: "GET",
+	            	url: url,
+	            	data: {},
+	            	dataType: "text",
+	            	success: function(data){
+	            		alert(url+"+++"+data);
+	            		location.reload();
+	                },error:function(data){
+	                	console.log(data);
+	                }
+	        	});
+			}
+		</script>
+    </head>
+    <body>
+        <h1 th:inline="text"> </h1>
+		<button id="stauts" onclick="stautsChange();"></button>        
+    </body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="/css/layui.css"></link>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script src="/js/layui.js"></script>
+<script>
+//JavaScript代码区域
+function formatDate(t) { 
+	if(isNaN(t)){
+		return ""; 
+	}else{
+		var now=new Date(t);
+		var year=now.getFullYear();  //取得4位数的年份
+		var month=now.getMonth()+1;  //取得日期中的月份，其中0表示1月，11表示12月
+		var date=now.getDate();      //返回日期月份中的天数（1到31）
+		return year+"-"+month+"-"+date; 
+	}
+
+/* var hour=now.getHours();     //返回日期中的小时数（0到23）
+var minute=now.getMinutes(); //返回日期中的分钟数（0到59）
+var second=now.getSeconds(); //返回日期中的秒数（0到59） */
+} 
+
+
+
+
+layui.use('element', function(){
+  var element = layui.element;
+});
+getStore();
+getSale();
+getSaleItem();
+getCashPay();
+getCardPay();
+
+
+
+
+function getStore(){
+	$.ajax({
+    	type: "GET",
+    	url: "/table/store",
+    	data: {},
+    	dataType: "json",
+    	success: function(data){
+    		var html="";
+    		$.each(data.list, function (i, item) {
+    			console.log(item);
+    			html+='<tr align="center" style="height:60px">';
+    			html+='<td >'+item.id+'</td>';
+    			html+='<td >'+item.name+'</td>';
+    			html+='<td >'+item.address+'</td>';
+    			html+='<td >'+item.opened+'</td>';
+    			html+='</tr>';
+    		});
+    		$("#store_table").html(html);
+        }
+	});
+}
+function getSale(){
+	$.ajax({
+    	type: "GET",
+    	url: "/table/sale",
+    	data: {},
+    	dataType: "json",
+    	success: function(data){
+    		var html="";
+    		console.log(data.list);
+    		$.each(data.list, function (i, item) {
+    			
+    			html+='<tr align="center" style="height:60px">';
+    			html+='<td >'+formatDate(item.time)+'</td>';
+    			html+='<td >'+item.complete+'</td>';
+    			html+='<td >'+item.amount+'</td>';
+    			html+='<td >'+item.readytoPay+'</td>';
+    			html+='</tr>';
+    		});
+    		$("#sale_table").html(html);
+        }
+	});
+}
+function getSaleItem(){
+	$.ajax({
+    	type: "GET",
+    	url: "/table/salesLineItem",
+    	data: {},
+    	dataType: "json",
+    	success: function(data){
+    		var html="";
+    		console.log(data.list);
+    		$.each(data.list, function (i, item) {
+    			html+='<tr align="center" style="height:60px">';
+    			html+='<td >'+item.quantity+'</td>';
+    			html+='<td >'+item.subamount+'</td>';
+    			html+='<td >'+item.belongedItem.name+'</td>';
+    			html+='</tr>';
+    		});
+    		$("#saleItem_table").html(html);
+        }
+	});
+}
+function getCashPay(){
+	$.ajax({
+    	type: "GET",
+    	url: "/table/cashPay",
+    	data: {},
+    	dataType: "json",
+    	success: function(data){
+    		var html="";
+    		console.log(data.list);
+    		$.each(data.list, function (i, item) {
+    			html+='<tr align="center" style="height:60px">';
+    			html+='<td >'+item.amountTendered+'</td>';
+    			html+='<td >'+item.balance+'</td>';
+    			html+='</tr>';
+    		});
+    		$("#cash_table").html(html);
+        }
+	});
+}
+function getCardPay(){
+	$.ajax({
+    	type: "GET",
+    	url: "/table/cardPay",
+    	data: {},
+    	dataType: "json",
+    	success: function(data){
+    		var html="";
+    		console.log(data.list);
+    		$.each(data.list, function (i, item) {
+    			html+='<tr align="center" style="height:60px">';
+    			html+='<td >'+item.amountTendered+'</td>';
+    			html+='<td >'+item.cardAccountNumber+'</td>';
+    			html+='<td >'+formatDate(item.expiryDate)+'</td>';
+    			html+='</tr>';
+    		});
+    		$("#card_table").html(html);
+        }
+	});
+}
+</script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header">
+    <div class="layui-logo">Prototype Cocome</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+ 
+      <li class="layui-nav-item"><a href="/test/index" id="s_function">System Function</a></li>
+      <li class="layui-nav-item layui-this"><a href="/test/index2" id="s_state">System State</a></li>
+  
+    </ul>
+    
+    <ul class="layui-nav layui-layout-right">
+      <li class="layui-nav-item">
+          <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+      </li>
+    </ul>
+  </div>
+  
+  <div class="layui-tab layui-tab-brief">
+  <ul class="layui-tab-title">
+    <li class="layui-this" id="Store">Store</li>
+    <li id="ProductCatalog">ProductCatalog</li>
+    <li id="CashDesk">CashDesk</li>
+    <li id="Sale">Sale</li>
+    <li id="Cashier">Cashier</li>
+    <li id="SalesLineItem">SalesLineItem</li>
+    <li id="Item">Item</li>
+    <li id="CashPayment">CashPayment</li>
+    <li id="CardPayment">CardPayment</li>
+  </ul>
+  <div class="layui-tab-content" style="height: 100px;">
+    <div class="layui-tab-item layui-show" >
+    	<table style="margin: auto;width:600px;"  border="1">
+    	<thead>
+    		<tr align="center" style="height:100px">
+				<td style="font-weight: bold">ID</td>
+				<td style="font-weight: bold">Name</td>
+				<td style="font-weight: bold">Address</td>
+				<td style="font-weight: bold">IsOpened</td>
+			</tr>
+    	</thead>
+    	<tbody id="store_table">
+    	</tbody>
+		</table>
+    </div>
+    <div class="layui-tab-item">
+    	
+    </div>
+    <div class="layui-tab-item">内容3</div>
+    <div class="layui-tab-item">
+    	<table style="margin: auto;width:600px;"  border="1">
+    	<thead>
+    		<tr align="center" style="height:100px">
+				<td style="font-weight: bold">Time</td>
+				<td style="font-weight: bold">IsComplete</td>
+				<td style="font-weight: bold">Amount</td>
+				<td style="font-weight: bold">IsReadytoPay</td>
+			</tr>
+    	</thead>
+    	<tbody id="sale_table">
+    	</tbody>
+		</table>
+    </div>
+    <div class="layui-tab-item">内容5</div>
+    <div class="layui-tab-item">
+    	<table style="margin: auto;width:600px;"  border="1">
+    	<thead>
+    		<tr align="center" style="height:100px">
+				<td style="font-weight: bold">Quantity</td>
+				<td style="font-weight: bold">SubAmount</td>
+				<td style="font-weight: bold">name</td>
+			</tr>
+    	</thead>
+    	<tbody id="saleItem_table">
+    	</tbody>
+		</table>
+    </div>
+    <div class="layui-tab-item">内容7</div>
+    <div class="layui-tab-item">
+    	<table style="margin: auto;width:600px;"  border="1">
+    	<thead>
+    		<tr align="center" style="height:100px">
+				<td style="font-weight: bold">AmountTendered</td>
+				<td style="font-weight: bold">Balance</td>
+			</tr>
+    	</thead>
+    	<tbody id="cash_table">
+    	</tbody>
+		</table>
+    </div>
+    <div class="layui-tab-item">
+    	  	<table style="margin: auto;width:600px;"  border="1">
+    	<thead>
+    		<tr align="center" style="height:100px">
+				<td style="font-weight: bold">AmountTendered</td>
+				<td style="font-weight: bold">CardAccountNumber</td>
+				<td style="font-weight: bold">ExpiryDate</td>
+			</tr>
+    	</thead>
+    	<tbody id="card_table">
+    	</tbody>
+		</table>
+    </div>
+  </div>
+</div> 
+</div>
+</body>
+</html>

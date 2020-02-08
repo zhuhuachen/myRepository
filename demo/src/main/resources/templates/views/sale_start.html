@@ -1,0 +1,47 @@
+    <head>
+        <script type="text/javascript" src="/js/jquery.js"></script>
+		<script type="text/javascript">
+			getInfo();
+			var status;
+			function getInfo(){
+				$.ajax({
+	            	type: "GET",
+	            	url: "/sale/getInfo",
+	            	data: {},
+	            	dataType: "json",
+	            	success: function(data){
+	            		status=data;
+	            		if(data){
+	            			$('#sale_info').text("makeNewSale success"); 
+	            		}
+	                }
+	        	});
+			}
+			
+			function stautsChange(){
+				
+				$.ajax({
+	            	type: "GET",
+	            	url: "/sale/start",
+	            	data: {},
+	            	dataType: "json",
+	            	success: function(data){
+	            		if(data.code==300){
+	            			alert("商店未开启");
+	            		}else{
+	            			localStorage.setItem("sale_id", data.sale_id);
+	            			location.reload();
+	            			alert("success");
+	            		}
+	                },error:function(data){
+	                	console.log(data);
+	                }
+	        	});
+			}
+		</script>
+    </head>
+    <body>
+		<h2>Sale</h2>
+		<a href="#" id="start_button" onclick="stautsChange();">start</a>  <br/><br/>
+		<h2 id="sale_info"></h2>
+    </body>
