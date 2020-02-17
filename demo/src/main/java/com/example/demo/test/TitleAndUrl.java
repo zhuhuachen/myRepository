@@ -19,12 +19,27 @@ public class TitleAndUrl {
 
     	    // Optional. If not specified, WebDriver searches the PATH for chromedriver.
     	
-    	 	String path=System.getProperty("user.dir")+"\\chromedriver2.exe";
-    		File f=new File(path);
-    		System.err.println();
-//    	    System.setProperty("webdriver.chrome.driver", "E:\\soft_test\\demo\\chromedriver.exe");
-    	    System.setProperty("webdriver.chrome.driver", f.getPath());
-    	    WebDriver driver = new ChromeDriver();
+    	 	String path=System.getProperty("user.dir");
+    	 	WebDriver driver=null;
+    	    try {
+    	    	File f=new File(path+"\\chromedriver1.exe");
+    	    	System.err.println();
+    	    	System.setProperty("webdriver.chrome.driver", f.getPath());
+    	    	driver = new ChromeDriver();
+    	    	System.out.println("***********11***********");
+			} catch (Exception e) {
+				try {
+	    	    	File f=new File(path+"\\chromedriver2.exe");
+	    	    	System.err.println();
+//	    	    System.setProperty("webdriver.chrome.driver", "E:\\soft_test\\demo\\chromedriver.exe");
+	    	    	System.setProperty("webdriver.chrome.driver", f.getPath());
+	    	    	driver = new ChromeDriver();
+					System.out.println("***********22***********");
+				} catch (Exception e1) {
+					// TODO: handle exception
+				}
+			}
+    	    
     	    driver.get("http://localhost:8080/test/index");
     	    
     	    System.out.println("maximize browser");
