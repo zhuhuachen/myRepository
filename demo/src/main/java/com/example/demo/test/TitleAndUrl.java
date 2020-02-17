@@ -36,7 +36,16 @@ public class TitleAndUrl {
 	    	    	driver = new ChromeDriver();
 					System.out.println("***********22***********");
 				} catch (Exception e1) {
-					// TODO: handle exception
+					try {
+		    	    	File f=new File(path+"\\chromedriver");
+		    	    	System.err.println();
+//		    	    System.setProperty("webdriver.chrome.driver", "E:\\soft_test\\demo\\chromedriver.exe");
+		    	    	System.setProperty("webdriver.chrome.driver", f.getPath());
+		    	    	driver = new ChromeDriver();
+						System.out.println("***********22***********");
+					} catch (Exception e2) {
+						// TODO: handle exception
+					}
 				}
 			}
     	    
